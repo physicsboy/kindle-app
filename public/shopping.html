@@ -25,7 +25,7 @@
   </div> -->
 
   <form 
-    hx-post="/api/shopping/add" 
+    hx-post="/shopping/add" 
     hx-on::after-request="if(event.detail.successful) this.reset()"
   >
     <input name="item" placeholder="Add item..." required />
@@ -34,7 +34,7 @@
 
   <div 
     id="list" 
-    hx-get="/api/shopping/list" 
+    hx-get="/shopping/list" 
     hx-trigger="load, reloadList from:body"
   >
     Loading...
