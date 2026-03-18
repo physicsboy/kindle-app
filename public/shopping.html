@@ -6,13 +6,14 @@
 </head>
 <body hx-boost="true">
   <!-- NAV -->
-  <div hx-get="/api/nav" hx-trigger="load" hx-swap="outerHTML"></div>
+  <div hx-get="/utils/nav" hx-trigger="load once" hx-swap="outerHTML"></div>
 
   <h1>Shopping List</h1>
 
   <form 
     hx-post="/shopping/add" 
     hx-on::after-request="if(event.detail.successful) this.reset()"
+    hx-swap="none"
   >
     <input name="item" placeholder="Add item..." required />
     <button type="submit">Add</button>
