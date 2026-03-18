@@ -6,6 +6,10 @@ export async function onRequestGet({ env }) {
       "SELECT * FROM items ORDER BY completed ASC, id DESC"
     ).all();
 
+    // Create a simple timestamp (e.g., 21:45)
+    const now = new Date();
+    const timestamp = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
     // 2. Handle the empty state
     if (results.length === 0) {
       return new Response(
@@ -61,6 +65,9 @@ export async function onRequestGet({ env }) {
           `;
         }).join("")}
       </ul>
+      <div style="font-size: 0.8rem; color: #666; text-align: center; margin-top: 20px;">
+        Last updated: ${timestamp}
+      </div>
     `;
 
     return new Response(html, {

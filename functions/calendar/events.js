@@ -1,6 +1,6 @@
 export async function onRequestGet({env}) {
 
-  const CALENDAR_URL = env.['google-calendar'];
+  const CALENDAR_URL = env['google-calendar'];
   if (!CALENDAR_URL) {
     return new Response("Secret CALENDAR_URL not found", { status: 500 });
   }
