@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="/htmx.min.js"></script>
+  <title>Shopping</title>
+</head>
+<body>
+  <h1>Shopping List</h1>
+
+  <form 
+    hx-post="/api/shopping/add"
+    hx-target="#list"
+    hx-swap="innerHTML"
+  >
+    <input name="item" placeholder="Add item..." required />
+    <button>Add</button>
+  </form>
+
+  <div 
+    id="list"
+    hx-get="/api/shopping/list"
+    hx-trigger="load"
+  >
+    Loading...
+  </div>
+
+  <br>
+  <a href="/">← Back</a>
+</body>
+</html>
