@@ -5,15 +5,15 @@
   <title>Calendar</title>
 </head>
 <body hx-boost="true">
-  <div hx-get="/api/nav" hx-trigger="load" hx-swap="outerHTML"></div>
+  <div hx-get="/utils/nav" hx-trigger="load" hx-swap="outerHTML"></div>
 
   <h1>Google Calendar</h1>
   
-  <div hx-get="/api/calendar/events" hx-trigger="load">
+  <div hx-get="/calendar/events" hx-trigger="load">
     Fetching your schedule...
   </div>
   
-  <button hx-get="/api/calendar/events" hx-target="previous div" style="margin-top: 20px;">
+  <button hx-get="/calendar/events" hx-target="previous div" style="margin-top: 20px;">
     🔄 Refresh Calendar
   </button>
 </body>
