@@ -1,75 +1,78 @@
-export async function onRequestGet(({env}) {
+export async function onRequestGet({ env }) {
   try {
-    // Query DB
-    const {results} = await env.DB.prepare("SELECT * FROM items").all();
+    // 1. Fetch items from D1. 
+    // We order by 'completed' so active items stay at the top.
+    const { results } = await env.DB.prepare(
+      "SELECT * FROM items ORDER BY completed ASC, id DESC"
+    ).all();
 
+    // 2. Handle the empty state
+    if (results.length === 0) {
+      return new Response(
+        '<p style="text-align: center; color: gray;">Your list is empty.</p>', 
+        { headers: { "Content-Type": "text/html" } }
+      );
+    }
+
+    // 3. Build the HTML list
     const html = `
-      <ul>
-        ${results.map(item => `
-          <li>
-            ${item.name}
-            <button 
-              hx-delete="/shopping/delete?id=${item.id}" 
-              hx-target="closest li" 
-              hx-swap="outerHTML"
-              hx-confirm="Delete this item?"
-            >
-              ❌
-            </button>
-          </li>
-        `).join("")}
+      <ul style="list-style: none; padding: 0; margin: 0;">
+        ${results.map(item => {
+          const isDone = item.completed === 1;
+          return `
+            <li style="
+              display: flex; 
+              align-items: center; 
+              padding: 12px 0; 
+              border-bottom: 1px solid #eee;
+            ">
+              <input 
+                type="checkbox" 
+                ${isDone ? 'checked' : ''} 
+                hx-post="/shopping/toggle?id=${item.id}"
+                hx-trigger="change"
+                style="width: 20px; height: 20px; margin-right: 15px;"
+              >
+              
+              <span style="
+                flex-grow: 1;
+                font-size: 1.1rem;
+                ${isDone ? 'text-decoration: line-through; color: #888;' : ''}
+              ">
+                ${item.name}
+              </span>
+
+              <button 
+                hx-delete="/shopping/delete?id=${item.id}" 
+                hx-target="closest li" 
+                hx-swap="outerHTML"
+                hx-confirm="Delete '${item.name}'?"
+                style="
+                  background: none; 
+                  border: 1px solid #ccc; 
+                  padding: 5px 10px; 
+                  font-size: 0.8rem;
+                  cursor: pointer;
+                "
+              >
+                Delete
+              </button>
+            </li>
+          `;
+        }).join("")}
       </ul>
     `;
 
     return new Response(html, {
       headers: { "Content-Type": "text/html" }
     });
-  } catch {
-    return new Response(`Error fetching items from table`, { status: 500 });
+
+  } catch (error) {
+    // Helpful for debugging in the Cloudflare Logs
+    console.error("Database Error:", error);
+    return new Response(
+      `<p style="color: red;">Error loading list: ${error.message}</p>`, 
+      { status: 500, headers: { "Content-Type": "text/html" } }
+    );
   }
-}
-
-export async function onRequestGet({ env }) {
-  let results;
-  try {
-    const res = await env.DB.prepare("SELECT * FROM items ORDER BY id DESC").all();
-    results = res.results;
-  } catch {
-    return new Response(`Error fetching items from table`, { status: 500 });
-  }
-
-  const html = `
-    <ul style="list-style: none; padding: 0;">
-      ${results.map(item => {
-        const isDone = item.completed === 1;
-        return `
-          <li style="margin-bottom: 10px; display: flex; align-items: center;">
-            <input 
-              type="checkbox" 
-              ${isDone ? 'checked' : ''} 
-              hx-post="/shopping/toggle?id=${item.id}"
-              hx-trigger="change"
-              style="margin-right: 10px;"
-            >
-            
-            <span style="${isDone ? 'text-decoration: line-through; color: gray;' : ''}">
-              ${item.name}
-            </span>
-
-            <button 
-              hx-delete="/shopping/delete?id=${item.id}" 
-              hx-target="closest li" 
-              style="margin-left: auto; background: none; border: none; cursor: pointer;"
-            >
-              ❌
-            </button>
-          </li>
-        `;
-      }).join("")}
-    </ul>
-  `;
-
-  return new Response(html, {
-    headers: { "Content-Type": "text/html" }
-  });
 }
