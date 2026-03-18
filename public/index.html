@@ -3,7 +3,10 @@
 <head>
   <title>Kindle App</title>
 </head>
-<body>
+<body hx-boost="true">
+  <!-- NAV -->
+  <div hx-get="/api/nav" hx-trigger="load" hx-swap="outerHTML"></div>
+
   <h1>My App</h1>
 
   <ul>

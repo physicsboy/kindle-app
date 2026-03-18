@@ -4,7 +4,10 @@
   <script src="/htmx.min.js"></script>
   <title>Calendar</title>
 </head>
-<body>
+<body hx-boost="true">
+  <!-- NAV -->
+  <div hx-get="/api/nav" hx-trigger="load" hx-swap="outerHTML"></div>
+
   <h1>Calendar</h1>
 
   <div 
