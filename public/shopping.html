@@ -8,7 +8,7 @@
   <h1>Shopping List</h1>
 
   <form 
-    hx-post="/api/shopping/add"
+    hx-post="/shopping/add"
     hx-target="#list"
     hx-swap="innerHTML"
   >
@@ -18,7 +18,7 @@
 
   <div 
     id="list"
-    hx-get="/api/shopping/list"
+    hx-get="/shopping/list"
     hx-trigger="load"
   >
     Loading...
