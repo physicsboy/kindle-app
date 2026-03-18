@@ -5,19 +5,16 @@
   <title>Calendar</title>
 </head>
 <body hx-boost="true">
-  <!-- NAV -->
-  <div hx-get="/utils/nav" hx-trigger="load once" hx-swap="outerHTML"></div>
+  <div hx-get="/api/nav" hx-trigger="load" hx-swap="outerHTML"></div>
 
-  <h1>Calendar</h1>
-
-  <div 
-    hx-get="/calendar/events"
-    hx-trigger="load"
-  >
-    Loading...
+  <h1>Google Calendar</h1>
+  
+  <div hx-get="/api/calendar/events" hx-trigger="load">
+    Fetching your schedule...
   </div>
-
-  <br>
-  <a href="/">← Back</a>
+  
+  <button hx-get="/api/calendar/events" hx-target="previous div" style="margin-top: 20px;">
+    🔄 Refresh Calendar
+  </button>
 </body>
 </html>
