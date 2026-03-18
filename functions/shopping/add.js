@@ -5,7 +5,7 @@ export async function onRequestPost({ request, env }) {
   try {
     if (item) {
       console.log("Item to add:", item);
-      await env.DB.prepare("INSERT INTO items (name) VALUES (item)");
+      await env.DB.prepare(`INSERT INTO items (name) VALUES (${item})`);
     }
 
     // Success response with the HX-Trigger header
