@@ -10,7 +10,7 @@ export async function onRequestDelete({ env }) {
         "HX-Trigger": "reloadList" 
       }
     });
-  } catch (e) {
+  } catch {
     return new Response("Error clearing table", { status: 500 });
   }
 }
