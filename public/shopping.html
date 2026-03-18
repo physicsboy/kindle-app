@@ -7,7 +7,7 @@
 <body>
   <h1>Shopping List</h1>
 
-  <form 
+  <!-- <form 
     hx-post="/shopping/add"
     hx-target="#list"
     hx-swap="innerHTML"
@@ -20,6 +20,22 @@
     id="list"
     hx-get="/shopping/list"
     hx-trigger="load"
+  >
+    Loading...
+  </div> -->
+
+  <form 
+    hx-post="/api/shopping/add" 
+    hx-on::after-request="if(event.detail.successful) this.reset()"
+  >
+    <input name="item" placeholder="Add item..." required />
+    <button type="submit">Add</button>
+  </form>
+
+  <div 
+    id="list" 
+    hx-get="/api/shopping/list" 
+    hx-trigger="load, reloadList from:body"
   >
     Loading...
   </div>
