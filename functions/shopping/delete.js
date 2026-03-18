@@ -6,5 +6,5 @@ export async function onRequestDelete({ request }) {
 
   // TODO: delete from DB
 
-  return fetch(new Request(new URL("/api/shopping/list", request.url)));
+  return fetch(new Request(new URL("/shopping/list", request.url)));
 }

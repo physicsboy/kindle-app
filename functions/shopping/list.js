@@ -11,7 +11,7 @@ export async function onRequestGet() {
         <li>
           ${item.name}
           <button 
-            hx-delete="/api/shopping/delete?id=${item.id}"
+            hx-delete="/shopping/delete?id=${item.id}"
             hx-target="#list"
             hx-swap="innerHTML"
           >
