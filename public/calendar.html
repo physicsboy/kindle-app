@@ -1,10 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <script src="/htmx.min.js"></script>
   <title>Calendar</title>
-  <script src="/assets/scripts/htmx.min.js" />
-  <!-- <link rel="stylesheet" href="/assets/css/shared.css"> -->
-  <link rel="stylesheet" href="/assets/css/calendar.css">
 </head>
 <body hx-boost="true">
   <div hx-get="/utils/nav" hx-trigger="load" hx-swap="outerHTML"></div>
